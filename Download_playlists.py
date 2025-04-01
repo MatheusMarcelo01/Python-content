@@ -7,7 +7,6 @@ def download_song():
     output_dir = output_dir_entry.get()
     command = f"spotdl {url} --output {output_dir}"
     subprocess.run(command, shell=True)
-
 def select_folder():
     folder_selected = filedialog.askdirectory()
     output_dir_entry.delete(0, 'end') 
@@ -15,7 +14,6 @@ def select_folder():
 
 root = Tk()
 root.title("Spotify Downloader")
-
 style = ttk.Style()
 style.theme_use('clam')
 
