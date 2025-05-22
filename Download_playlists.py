@@ -1,19 +1,31 @@
 import os
 import subprocess
+import shlex
 from tkinter import Tk, Label, Entry, Button, filedialog, ttk
 
 def download_song():
-    url = url_entry.get()
-    output_dir = output_dir_entry.get()
+    url = url_entry.get().strip()
+    output_dir = output_dir_entry.get().strip()
+    if not url or not output_dir:
+        print("Por favor, preencha todos os campos.")
+        return
     command = f"spotdl {url} --output {output_dir}"
-    subprocess.run(command, shell=True)
+    try:
+        subprocess.run(shlex.split(command), check=True)
+        print("Download concluído com sucesso!")
+    except subprocess.CalledProcessError:
+        print("Erro ao baixar a música.")
+
 def select_folder():
     folder_selected = filedialog.askdirectory()
-    output_dir_entry.delete(0, 'end') 
-    output_dir_entry.insert(0, folder_selected)  
+    if folder_selected:
+        output_dir_entry.delete(0, 'end') 
+        output_dir_entry.insert(0, folder_selected)  
 
 root = Tk()
 root.title("Spotify Downloader")
+root.geometry("500x250")
+
 style = ttk.Style()
 style.theme_use('clam')
 
